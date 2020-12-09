@@ -16,8 +16,8 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 
 	reg [1:0] state = 2'b00, next_state = 2'b00;
 
-    reg [3:0] matA [0:`DEPTH*`ROWA*`COLA-1];
-    reg [3:0] matB [0:`DEPTH*`COLB*`COLA-1];    
+	reg [3:0] matA [0:`DEPTH*`ROWA*`COLA-1];
+	reg [3:0] matB [0:`DEPTH*`COLB*`COLA-1];    
 	reg [0:12*`DEPTH*`ROWA*`COLB-1] outputC;
 	reg [11:0] matC [0:`DEPTH*`ROWA*`COLB-1];
 
@@ -41,9 +41,9 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 			times = add[0] + add[1];
 		end
 	endfunction
-    
-    
-    integer row = 0;
+	
+	
+	integer row = 0;
 	integer col = 0;
 	integer cola = 0;
 	integer depth = 0;
@@ -55,26 +55,26 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 	end
 	
 	always @(posedge clk or negedge rstn) begin
-	    if (!rstn) begin
-	    //reset
+		if (!rstn) begin
+		//reset
 			state <= 2'b00;
 			next_state <= 2'b00;
-	        for (row = 0; row < `ROWA; row = row + 1) begin
+			for (row = 0; row < `ROWA; row = row + 1) begin
 				for (col = 0; col < `COLB; col = col + 1) begin
 					for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
 						for (cola = 0; cola < `COLA; cola = cola + 1) begin
-						    matA[depth*`ROWA*`COLA+row*`COLA+cola] <= 4'b0;
-						    matB[depth*`COLA*`COLB+cola*`COLB+col] <= 4'b0;
-						    matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
-						    stored[row][cola][col] <= 12'b0;
+							matA[depth*`ROWA*`COLA+row*`COLA+cola] <= 4'b0;
+							matB[depth*`COLA*`COLB+cola*`COLB+col] <= 4'b0;
+							matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
+							stored[row][cola][col] <= 12'b0;
 							added[row][col] <= 12'b0;
 						end
 					end
 				end
 			end
-	    end
-	    else begin
-    		state <= next_state;
+		end
+		else begin
+			state <= next_state;
 		end
 	end
 
@@ -84,10 +84,10 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 				for (col = 0; col < `COLB; col = col + 1) begin
 					for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
 						for (cola = 0; cola < `COLA; cola = cola + 1) begin
-						    matA[depth*`ROWA*`COLA+row*`COLA+cola] <= 4'b0;
-						    matB[depth*`COLA*`COLB+cola*`COLB+col] <= 4'b0;
-						    matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
-						    stored[row][cola][col] <= 12'b0;
+							matA[depth*`ROWA*`COLA+row*`COLA+cola] <= 4'b0;
+							matB[depth*`COLA*`COLB+cola*`COLB+col] <= 4'b0;
+							matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
+							stored[row][cola][col] <= 12'b0;
 							added[row][col] <= 12'b0;
 						end
 					end
@@ -95,86 +95,86 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 			end
 		end
 		else begin		
-    	case (state)
-    		2'b00: begin
-    		//read input matrix
-    			if (din == 0) begin
-    				next_state <= 2'b00;
-    			end
-    			else begin				    			
-					for (row = 0; row < `ROWA; row = row + 1) begin
-						for (col = 0; col < `COLB; col = col + 1) begin
-							for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
-								for (cola = 0; cola < `COLA; cola = cola + 1) begin
-								    for (j = 0; j < 4; j = j + 1) begin
-		                                matA[depth*`ROWA*`COLA+row*`COLA+cola][j] <= inputA[4*(depth*`ROWA*`COLA+row*`COLA+cola)+j];
-		                                matB[depth*`ROWA*`COLA+row*`COLA+cola][j] <= inputB[4*(depth*`COLB*`COLA+cola*`COLB+col)+j];
-											     //matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
-											end
-		                        end
-		                    end
-		                end
-		            end
-		            next_state <= 2'b01;
-		        end
-			 end
+			case (state)
+				2'b00: begin
+				//read input matrix
+					if (din == 0) begin
+						next_state <= 2'b00;
+					end
+					else begin				    			
+						for (row = 0; row < `ROWA; row = row + 1) begin
+							for (col = 0; col < `COLB; col = col + 1) begin
+								for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
+									for (cola = 0; cola < `COLA; cola = cola + 1) begin
+										for (j = 0; j < 4; j = j + 1) begin
+											matA[depth*`ROWA*`COLA+row*`COLA+cola][j] <= inputA[4*(depth*`ROWA*`COLA+row*`COLA+cola)+j];
+											matB[depth*`ROWA*`COLA+row*`COLA+cola][j] <= inputB[4*(depth*`COLB*`COLA+cola*`COLB+col)+j];
+													 //matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
+												end
+									end
+								end
+							end
+						end
+						next_state <= 2'b01;
+					end
+				 end
 
-		    2'b01:begin
-		    //matrixmultiply
-				for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
-					for (row = 0; row < `ROWA; row = row + 1) begin
-						for (col = 0; col < `COLB; col = col + 1) begin
-							for (cola = 0; cola < `COLA; cola = cola + 1) begin
-								stored[row][col][cola] <= times(matA[row*`COLA+cola], matB[cola*`COLB+col]);
-								//matC[depth*`ROWA*`COLB+row*`COLB+col] <=  matC[depth*`ROWA*`COLB+row*`COLB+col] + stored[row][col][cola];
-								//matC[depth*`ROWA*`COLB+row*`COLB+col] <=  matC[depth*`ROWA*`COLB+row*`COLB+col] + times(matA[row*`COLA+cola], matB[cola*`COLB+col]);
+				2'b01:begin
+				//matrixmultiply
+					for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
+						for (row = 0; row < `ROWA; row = row + 1) begin
+							for (col = 0; col < `COLB; col = col + 1) begin
+								for (cola = 0; cola < `COLA; cola = cola + 1) begin
+									stored[row][col][cola] <= times(matA[row*`COLA+cola], matB[cola*`COLB+col]);
+									//matC[depth*`ROWA*`COLB+row*`COLB+col] <=  matC[depth*`ROWA*`COLB+row*`COLB+col] + stored[row][col][cola];
+									//matC[depth*`ROWA*`COLB+row*`COLB+col] <=  matC[depth*`ROWA*`COLB+row*`COLB+col] + times(matA[row*`COLA+cola], matB[cola*`COLB+col]);
+								end
 							end
 						end
 					end
+					next_state <= 2'b10;
 				end
-				next_state <= 2'b10;
-		    end
 
-		    2'b10:begin
-		    //matrixmultiplyadd				
-				for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
-					for (row = 0; row < `ROWA; row = row + 1) begin
-						for (col = 0; col < `COLB; col = col + 1) begin
-							for (cola = 0; cola < `COLA; cola = cola + 1) begin
-								matC[depth*`ROWA*`COLB+row*`COLB+col] = matC[depth*`ROWA*`COLB+row*`COLB+col] + stored[row][col][cola];
-								//matC[depth*`ROWA*`COLB+row*`COLB+col] <=  matC[depth*`ROWA*`COLB+row*`COLB+col] + times(matA[row*`COLA+cola], matB[cola*`COLB+col]);
+				2'b10:begin
+				//matrixmultiplyadd				
+					for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
+						for (row = 0; row < `ROWA; row = row + 1) begin
+							for (col = 0; col < `COLB; col = col + 1) begin
+								for (cola = 0; cola < `COLA; cola = cola + 1) begin
+									matC[depth*`ROWA*`COLB+row*`COLB+col] = matC[depth*`ROWA*`COLB+row*`COLB+col] + stored[row][col][cola];
+									//matC[depth*`ROWA*`COLB+row*`COLB+col] <=  matC[depth*`ROWA*`COLB+row*`COLB+col] + times(matA[row*`COLA+cola], matB[cola*`COLB+col]);
+								end
 							end
 						end
 					end
+					next_state <= 2'b11;
 				end
-				next_state <= 2'b11;
-			end
-			
-			2'b11:begin
-			//output
-		    	if (op == 1) begin
-		        	for (row = 0; row < `ROWA; row = row + 1) begin
-						for (col = 0; col < `COLB; col = col + 1) begin
-							for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
-							    for (j=0;j<12;j=j+1) begin
-							        outputC[12*(depth*`ROWA*`COLB+row*`COLB+col)+j] <= matC[depth*`ROWA*`COLB+row*`COLB+col][11-j];
-							    end
+				
+				2'b11:begin
+				//output
+					if (op == 1) begin
+						for (row = 0; row < `ROWA; row = row + 1) begin
+							for (col = 0; col < `COLB; col = col + 1) begin
+								for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
+									for (j=0;j<12;j=j+1) begin
+										outputC[12*(depth*`ROWA*`COLB+row*`COLB+col)+j] <= matC[depth*`ROWA*`COLB+row*`COLB+col][11-j];
+									end
+								end
 							end
-					    end
-					end
-					for (row = 0; row < `ROWA; row = row + 1) begin
-						for (col = 0; col < `COLB; col = col + 1) begin
-							for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
-								for (cola = 0; cola < `COLA; cola = cola + 1) begin
-									matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
-							   end
-		               end
-		            end
-		         end
-					next_state <= 2'b00;
-				end				
-		    end
-		endcase
+						end
+						for (row = 0; row < `ROWA; row = row + 1) begin
+							for (col = 0; col < `COLB; col = col + 1) begin
+								for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
+									for (cola = 0; cola < `COLA; cola = cola + 1) begin
+										matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
+								   end
+						   end
+						end
+					 end
+						next_state <= 2'b00;
+					end				
+				end
+			endcase
 		end
 	end
 	
@@ -188,7 +188,7 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 						outputC[depth*`ROWA*`COLB+row*`COLB+col] <= 8'b0;
 					end
 					for (cola = 0; cola < `COLA; cola = cola + 1) begin
-					    stored[row][cola][col] <= 8'b0;
+						stored[row][cola][col] <= 8'b0;
 					end
 					added[row][col] <= 8'b0;
 				end
@@ -201,7 +201,7 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 						for (cola = 0; cola < `COLA; cola = cola + 1) begin
 							stored[row][col][cola] <= times(matA[row*`COLA+cola], matB[cola*`COLB+col]);
 							for (j = 0; j < 8; j = j + 1) begin
-							    matC[depth*`ROWA*`COLB+row*`COLB+col] =  matC[depth*`ROWA*`COLB+row*`COLB+col] + stored[row][col][cola];
+								matC[depth*`ROWA*`COLB+row*`COLB+col] =  matC[depth*`ROWA*`COLB+row*`COLB+col] + stored[row][col][cola];
 							end
 						end
 					end
@@ -211,26 +211,26 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 	end
 	
 	always @(op or negedge rstn) begin
-	    if (!rstn) begin
-	        for (row = 0; row < `ROWA; row = row + 1) begin
+		if (!rstn) begin
+			for (row = 0; row < `ROWA; row = row + 1) begin
 				for (col = 0; col < `COLB; col = col + 1) begin
 					for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
-						    matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 8'b0;
+							matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 8'b0;
 					end
 				end
 			end
-	    end
-	    else begin
-	        for (row = 0; row < `ROWA; row = row + 1) begin
+		end
+		else begin
+			for (row = 0; row < `ROWA; row = row + 1) begin
 				for (col = 0; col < `COLB; col = col + 1) begin
 					for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
-					    for (j=0;j<8;j=j+1) begin
-					        outputC[8*(depth*`ROWA*`COLB+row*`COLB+col)+j] <= matC[depth*`ROWA*`COLB+row*`COLB+col][7-j];
-					    end
+						for (j=0;j<8;j=j+1) begin
+							outputC[8*(depth*`ROWA*`COLB+row*`COLB+col)+j] <= matC[depth*`ROWA*`COLB+row*`COLB+col][7-j];
+						end
 					end
-			    end
+				end
 			end
-	    end
+		end
 	end
 
 */
