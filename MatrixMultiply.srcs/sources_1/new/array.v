@@ -110,7 +110,7 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 											matA[depth*`ROWA*`COLA+row*`COLA+cola][j] <= inputA[4*(depth*`ROWA*`COLA+row*`COLA+cola)+j];
 											matB[depth*`ROWA*`COLA+row*`COLA+cola][j] <= inputB[4*(depth*`COLB*`COLA+cola*`COLB+col)+j];
 													 //matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
-												end
+										end
 									end
 								end
 							end
@@ -167,10 +167,10 @@ module MatrixMultiply(inputA, inputB, clk, rstn, din, op, outputC);
 								for (depth = 0; depth < `DEPTH; depth = depth + 1) begin
 									for (cola = 0; cola < `COLA; cola = cola + 1) begin
 										matC[depth*`ROWA*`COLB+row*`COLB+cola] <= 12'b0;
-								   end
-						   end
+									end
+								end
+							end
 						end
-					 end
 						next_state <= 2'b00;
 					end				
 				end
