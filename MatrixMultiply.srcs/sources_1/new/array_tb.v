@@ -12,7 +12,7 @@ module MatrixMultiply_tb();
 	reg op;
 	reg [0:4*`DEPTH*`ROWA*`COLA-1] inputA;
 	reg [0:4*`DEPTH*`COLA*`COLB-1] inputB;
-	wire [0:8*`DEPTH*`ROWA*`COLB-1] outputC;
+	wire [0:12*`DEPTH*`ROWA*`COLB-1] outputC;
 	reg [3:0] A[0:`DEPTH*`ROWA*`COLA-1];
 	reg [3:0] B[0:`DEPTH*`COLA*`COLB-1];
 	//reg [7:0] C[0:`DEPTH*`ROWA*`COLB-1];
