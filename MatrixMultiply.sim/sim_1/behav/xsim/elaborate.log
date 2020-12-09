@@ -1,0 +1,14 @@
+Vivado Simulator 2018.3
+Copyright 1986-1999, 2001-2018 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2018.3/bin/unwrapped/win64.o/xelab.exe -wto 6f30bc888ccb4dcea35d9f4c32dc0371 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot MatrixMultiply_tb_behav xil_defaultlib.MatrixMultiply_tb xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "C:/DSP/Projects/MatrixMultiply/MatrixMultiply.srcs/sources_1/new/array.v" Line 8. Module MatrixMultiply doesn't have a timescale but at least one module in design has a timescale.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.MatrixMultiply
+Compiling module xil_defaultlib.MatrixMultiply_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot MatrixMultiply_tb_behav
